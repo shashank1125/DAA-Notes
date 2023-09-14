@@ -1,0 +1,645 @@
+public class MergeAgain
+{
+	private static void merge_sort(int arr[],int low,int high)
+	{
+		if(low<high)
+		{
+			int mid=(low+high)/2;
+			merge_sort(arr,low,mid);
+			merge_sort(arr,mid+1,high);
+			merge(arr,low,mid,high);
+		}
+	}
+	
+	private  static void merge(int arr[],int low,int mid,int high)
+	{
+		int i=low;
+		int h=low;
+		int j=mid+1;
+		int[] b=new int[50];
+		while(h<=mid&&j<=high)
+		{
+			if(arr[h]<=arr[j])
+			{
+				b[i++]=arr[h++];
+			}
+			else
+			{
+				b[i++]=arr[j++];
+			}
+			
+		}
+		while(h<=mid)
+		{
+			b[i++]=arr[h++];
+		}
+		while(j<=high)
+		{
+			b[i++]=arr[j++];
+		}
+		for(int k=low;k<=high;k++)
+		{
+			arr[k]=b[k];
+		}
+		
+	}
+
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the number of elements");
+		int n=sc.nextInt();
+		int[] arr=new int[50];
+		System.out.println("Enter the elements:");
+		for(int i=0;i<n;i++)
+		{
+			arr[i]=sc.nextInt();
+		}
+		merge_sort(arr,0,n-1);
+		System.out.println("The sorted array is:");
+		for(int k=0;k<n;k++)
+		{
+			System.out.println(arr[k]+" ");
+		}
+	}
+	
+
+}
+
+//
+public class practice
+{
+	private static void select_sort(int arr[],int n)
+	{
+		int min;
+		for(int i=0;i<=arr.length-2;i++)
+		{
+			min=i;
+			for(int j=i+1;j<=arr.length-1;j++)
+			{
+				if(arr[min]>arr[j])
+				{
+					min=j;
+				}
+			}
+			if(min!=i)
+			{
+				int temp;
+				temp=arr[i];
+				arr[i]=arr[min];
+				arr[min]=temp;
+			}
+		}
+	}
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the number of elements");
+		int n=sc.nextInt();
+		int[] arr=new int[n];
+		System.out.println("Enter the elements:");
+		for(int i=0;i<n;i++)
+		{
+			arr[i]=sc.nextInt();
+		}
+		select_sort(arr,n);
+		System.out.println("The sorted array is:");
+		for(int k=0;k<n;k++)
+		{
+			System.out.println(arr[k]+" ");
+		}
+	}
+
+}
+//selection sort
+
+
+
+//
+public class Practice2
+{
+	private static int partition(int arr[],int low,int high)
+	{
+		int pivot=arr[low];
+		int i=low;
+		int j=high;
+		while(i<=j)
+		{
+			if(arr[i]<=pivot)
+			{
+				i++;
+			}
+			if(arr[j]>=pivot)
+			{
+				j--;
+			}
+			if(i<j)
+			{
+				int temp;
+				temp=arr[i];
+				arr[i]=arr[j];
+				arr[j]=temp;
+			}
+		}
+		arr[low]=arr[j];
+		arr[j]=pivot;
+		return j;
+	}
+	private static void quick_sort(int arr[],int low,int high)
+	{
+		if(low<high)
+		{
+			int j=partition(arr,low,high);
+			quick_sort(arr,low,j-1);
+			quick_sort(arr,j+1,high);
+		}
+	}
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the number of elements");
+		int n=sc.nextInt();
+		int[] arr=new int[n];
+		System.out.println("Enter the elements:");
+		for(int i=0;i<n;i++)
+		{
+			arr[i]=sc.nextInt();
+		}
+		quick_sort(arr,0,n-1);
+		System.out.println("The sorted array is:");
+		for(int k=0;k<n;k++)
+		{
+			System.out.println(arr[k]+" ");
+		}
+	}
+}
+
+
+//quick_sort
+
+//
+public class Practice3 
+{
+
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the number of vertices");
+		int n=sc.nextInt();
+		int[][] ca=new int[n][n];
+		int [] unvisited=new int[n];
+		int[] visited=new int[n];
+		System.out.println("Enter the cose adjacency matrix");
+		for(int i=0;i<n;i++)
+		{
+			for(int j=0;j<n;j++)
+			{
+				ca[i][j]=sc.nextInt();
+			}
+		}
+		System.out.println("Enter the source vertex");
+		int cv=sc.nextInt();
+		visited[cv-1]=1;
+		for(int i=0;i<n;i++)
+		{
+			if(i!=cv-1)
+			{
+				unvisited[i]=1;
+			}
+			
+		}
+		int source=0;
+		int mincost=0;
+		int index=0;
+		System.out.println("Edge set:");
+		for(int i=1;i<n;i++)
+		{
+			int min=9999;
+			for(int j=0;j<n;j++)
+			{
+				if(visited[j]==1)
+				{
+					for(int k=0;k<n;k++)
+					{
+						if(unvisited[k]==1 && ca[j][k]!=9999)
+						{
+							if(min>ca[j][k])
+							{
+								min=ca[j][k];
+								source=j;
+								index=k;
+							}
+						}
+					}
+				}
+			}
+			visited[index]=1;
+			unvisited[index]=0;
+			mincost=mincost+min;
+		   System.out.println("(" + (source+1) + "," + (index+1) + ")");
+		}
+		System.out.println("The cost of minimun cost spanning tree is:"+mincost);
+	}
+
+}
+//prims
+
+//
+public class knapsack 
+{
+	private double[] weight,ratio,profit,solution_vector;
+	private double capacity;
+	knapsack()
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the number of items");
+		int n=sc.nextInt();
+		System.out.println("Enter the capacity of knapsack");
+		capacity=sc.nextDouble();
+		weight=new double[n];
+		profit=new double[n];
+		solution_vector=new double[n];
+		ratio=new double[n];
+		System.out.println("Enter the weights of items");
+		for(int i=0;i<n;i++)
+		{
+			weight[i]=sc.nextDouble();
+			
+		}
+		System.out.println("Enter the profit of items");
+		for(int i=0;i<n;i++)
+		{
+			profit[i]=sc.nextDouble();
+			
+		}
+	}
+	
+	int get_max()
+	{
+		int index=-1;
+		double max=0;
+		
+		for(int i=0;i<ratio.length;i++)
+		{
+			if(max<ratio[i])
+			{
+				max=ratio[i];
+				index=i;
+			}
+		}
+		return index;
+	}
+	
+	void compute()
+	{
+		double currentprofit=0;
+		double currentweight=0;
+		
+		for(int i=0;i<ratio.length;i++)
+		{
+			ratio[i]=profit[i]/weight[i];
+		}
+		System.out.println("Items considered is:");
+		while(currentweight<capacity)
+		{
+			int item=get_max();
+			if(item==-1)
+			{
+				break;
+			}
+			System.out.println((item+1)+" ");
+			if(currentweight+weight[item]<=capacity)
+				{
+						currentweight=currentweight+weight[item];
+						currentprofit=currentprofit+profit[item];
+						solution_vector[item]=1;
+						ratio[item]=0;
+				}
+			else
+			{
+				currentprofit=currentprofit+ratio[item]*(capacity-currentweight);
+				solution_vector[item]=(capacity-currentweight)/weight[item];
+				break;
+			}
+		}
+		System.out.println();
+		System.out.println("Maximum profit is"+currentprofit);
+		System.out.println("The solution vector is:");
+		for(int i=0;i<solution_vector.length;i++)
+		{
+			System.out.println(solution_vector[i]+" ");
+		}
+		System.out.println();
+		
+	}
+	public static void main(String[] args) 
+	{
+		knapsack knap=new knapsack();
+		knap.compute();
+	}
+
+}
+//knapsack
+
+//
+package q_sort;
+import java.util.*;
+public class Floyds {
+
+	public static void main(String[] args) {
+		{
+			 Scanner Sc =new Scanner(System.in);
+			 System.out.println("Enter the total number of nodes");
+			 int n=Sc.nextInt();
+			 System.out.println("Enter the  adjacency matrix");
+			 int d[][]= new int[n][n];
+			 for(int i=0;i<n;i++){
+			 for(int j=0;j<n;j++){
+			 d[i][j]=Sc.nextInt();
+			 }
+			 }
+			 for(int k=0;k<n;k++){
+			 for(int i=0;i<n;i++){
+			 for(int j=0;j<n;j++){
+			 d[i][j]=(d[i][j]|d[i][k]&d[k][j]);
+			 }
+			 }
+			 }
+			 for(int i=0;i<n;i++){
+			 for(int j=0;j<n;j++){
+			 System.out.println("the matrix is "+d[i][j]);
+			 }
+			 }
+			 }
+
+	}
+
+}
+//warshall
+
+//
+package q_sort;
+import java.util.*;
+
+public class kruskal 
+{
+	
+	
+	public static void swap(int array[], int index)
+	{
+			 int temp = array[index];
+			 array[index] = array[index + 1];
+			 array[index + 1] = temp;
+	 }
+		 public static int find(int parent[], int i)
+		 {
+			 if (parent[i] == -1)
+			 return i;
+			 return find(parent, parent[i]);
+		 }
+		 
+		 public static void union(int parent[], int a, int b)
+		 {
+			 parent[a] = b;
+		 }
+
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+		 
+		 System.out.println("Enter the number of vertices");
+		 int n = sc.nextInt();
+		 int cA[][] = new int[n][n];
+		 System.out.println("Enter the cost adjacency matrix.Enter 9999 for infinity");
+		 for (int i = 0; i < n; i++)
+		 {
+			 for (int j = 0; j < n; j++)
+				 	cA[i][j] = sc.nextInt();
+		 }
+		
+		 int edges[] = new int[100];
+		 int source[] = new int[100];
+		 int destination[] = new int[100];
+		 int k = 0;
+		 for (int i = 0; i < n; i++)
+		 {
+			 for (int j = 0; j < n; j++)
+			 {
+				 if ((cA[i][j] != 0) && (cA[i][j] != 9999))
+				 {
+					 edges[k] = cA[i][j];
+					 source[k] = i;
+					 destination[k] = j;
+					 cA[j][i] = 0;
+					 k++;
+				 }
+		 }
+		 }
+		 for (int i = 0; i < k - 1; i++)
+		 {
+			 for (int j = 0; j < k - i - 1; j++)
+			 {
+				 if (edges[j] > edges[j + 1])
+				 {
+					 swap(edges, j);
+					 swap(source, j);
+					 swap(destination, j);
+				 }
+			 }
+		 }
+		 int parent[] = new int[n];
+		 int minimumCost = 0;
+		 System.out.println("The edges in the MCST are:");
+		 for (int i = 0; i < n; i++)
+			 parent[i] = -1;
+		 for (int j = 0; j < k; j++) 
+		 {
+			 int a = find(parent, source[j]);// Applying union find algorithm to detect cycle in the graph
+			 int b = find(parent, destination[j]);
+		
+			 if (a != b) 
+			 {
+				 minimumCost += edges[j];
+				 union(parent, a, b);
+				 System.out.println((source[j]+1) + " -> " + (destination[j]+1) + " = " + edges[j]);
+			 }
+		 }
+		 
+		 System.out.println("Minimum Cost of the Spanning Tree = " + minimumCost);
+		 
+	}
+	
+	
+	
+
+}
+//kruskal
+
+//
+package q_sort;
+
+import java.util.Scanner;
+
+public class dynamic_knap {
+
+    public static void main(String[] args)
+    {
+        Scanner inscan = new Scanner(System.in);
+        System.out.println("Enter number of items:");
+        int n = inscan.nextInt();
+        System.out.println("Enter maximum capacity of the Knapsack:");
+        int capacity = inscan.nextInt();
+        System.out.println("Enter the weights of items:");
+        int[] weight = new int[n];
+        for (int i = 0; i < n; i++) // Start from 0, not 1
+            weight[i] = inscan.nextInt();
+        System.out.println("Enter the values of items:");
+        int[] value = new int[n];
+        for (int i = 0; i < n; i++)
+            value[i] = inscan.nextInt();
+        knapsack(n, capacity, weight, value);
+        inscan.close();
+    }
+
+    public static void knapsack(int n, int capacity, int[] weight, int[] value)
+    {
+        int[][] solnMatrix = new int[n + 1][capacity + 1]; // Increase the size by 1
+
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= capacity; j++) {
+                if (i == 0 || j == 0)
+                    solnMatrix[i][j] = 0;
+            }
+        }
+
+        for (int i = 1; i <= n; i++)
+        { // Start from 1
+            for (int j = 1; j <= capacity; j++) 
+            { // Start from 1
+                if (weight[i - 1] > j)
+                    solnMatrix[i][j] = solnMatrix[i - 1][j];
+                else
+                    solnMatrix[i][j] = maximum(solnMatrix[i - 1][j], (solnMatrix[i - 1][j - weight[i - 1]] + value[i - 1])); 
+            }
+        }
+
+        profitTable(n, capacity, solnMatrix);
+        selectedItems(n, capacity, solnMatrix, weight);
+        System.out.println("Maximum value that can be put in knapsack of capacity " + capacity + " is: " + solnMatrix[n][capacity]); // Corrected the variable name
+    }
+
+    public static int maximum(int a, int b)
+    {
+        return (a > b) ? a : b;
+    }
+
+    public static void profitTable(int n, int capacity, int[][] solnMatrix) {
+        System.out.println("Profit table:");
+        for (int i = 0; i <= n; i++) 
+        { // Changed < to <=
+            for (int j = 0; j <= capacity; j++)
+            { // Changed < to <=
+                System.out.print(solnMatrix[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void selectedItems(int n, int capacity, int[][] solnMatrix, int[] weight)
+    {
+        System.out.println("Selected items:");
+        while (n > 0 && capacity > 0)
+        {
+            if (solnMatrix[n][capacity] != solnMatrix[n - 1][capacity])
+            {
+                System.out.println("Item " + n + " - Weight: " + weight[n - 1]); // Corrected the index
+                capacity =capacity -  weight[n - 1]; // Corrected the index
+                n = n - 1;
+            } 
+            else
+            {
+                n = n - 1;
+            }
+        }
+    }
+}
+//0/1 knap
+
+//
+package q_sort;
+import java.util.*;
+public class Dijkstras 
+{
+	static int infinity = 999;
+	
+	public static void main(String args[])
+	{
+		Scanner scan = new Scanner(System.in);// read the number of vertices 
+		System.out.println("Enter the number of vertices");
+		int n = scan.nextInt();
+		int adj[][] = new int[n][n ];// read the adjacency matrix
+		System.out.println("Enter the adjacency matrix(Let 999 represent the value infinity)");
+		for(int i = 0; i < n; i++)
+		{
+			for(int j = 0; j < n; j++)
+			{
+				adj[i][j] = scan.nextInt();// read the source vertex
+				
+			}
+		}
+		System.out.println("Enter the source vertex");
+		int src = scan.nextInt();
+		int dist[] = new int[n];
+		dijkstra_algo(n, adj, src, dist);
+		display(src, n, dist);
+	}
+	
+	static void display(int src, int n, int dist[])
+	{
+		System.out.println("The shortest path from "+src+" to all other vertices is:");
+		for(int i = 0; i < n; i++)
+		{
+			System.out.println("Shortest distance from "+src+" to "+(i)+" is "+dist[i]);
+		}
+		return;
+	}
+	
+	static void dijkstra_algo(int n, int adj[][], int src, int dist[])
+	{
+		int visited[] = new int[n];
+		int min_dist, unvis = 0;
+		for(int i = 0; i <n; i++)
+		{
+			dist[i] = adj[src][i];
+			visited[i] = 0;
+		}
+		// make source vertex as visited one 
+		visited[src] = 1;
+		for(int i = 1	; i <= n; i++)
+		{
+			min_dist = infinity;
+			for(int j = 0; j <n; j++)
+			{
+				if(visited[j] == 0)
+				{
+					if(dist[j] < min_dist)
+					{
+						min_dist = dist[j];
+						unvis = j;
+					}
+				}
+			}
+			visited[unvis] = 1;
+			for(int v = 0; v <n; v++)
+			{
+				if(visited[v] == 0)
+				{
+					if((dist[src] + adj[unvis][v]) < dist[v])
+						dist[v] = dist[src] + adj[unvis][v];
+				}
+			}
+		}
+		return;
+	}
+}
+//dijsktra
